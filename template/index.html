@@ -7,6 +7,8 @@
     <title>{{ name }}</title>
     <!-- Add to home screen for Android and modern mobile browsers -->
     <link rel="manifest" href="/static/manifest.json">
+    <meta name="theme-color" content="#4DBA87">
+
     <!-- Add to home screen for Safari on iOS -->
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black">
@@ -17,7 +19,20 @@
     <meta name="msapplication-TileColor" content="#000000">
   </head>
   <body>
-    <div id="app"></div>
+    <div id="app">This is your fallback content in case JavaScript fails to load.</div>
+    <!-- Todo: only include in production -->
+    <script>
+      if('serviceWorker' in navigator) {
+        navigator.serviceWorker.register('/service-worker.js', { scope: '/' })
+          .then(function(registration) {
+                console.log('Service Worker Registered');
+          });
+
+        navigator.serviceWorker.ready.then(function(registration) {
+           console.log('Service Worker Ready');
+        });
+      }
+    </script>
     <!-- built files will be auto injected -->
   </body>
 </html>
